@@ -43,10 +43,10 @@ public class User {
     @Column(name = "health_ticket")
     private String healthTicket;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     List<Recept> recepts;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     List<Schedule> schedule;
 
     @Override
