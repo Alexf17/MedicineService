@@ -37,7 +37,7 @@ public class Recept {
 
     private Doctor doctor;
 
-
+//tes
     private List<Madicine> madicine;
 
     @ManyToOne
