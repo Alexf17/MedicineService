@@ -1,6 +1,6 @@
 package com.rangers.medicineservice.entity;
 
-import com.rangers.medicineservice.entity.enums.MedicineCategory;
+import com.rangers.medicineservice.entity.enums.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +31,7 @@ public class Medicine {
     private BigDecimal price;
 
     @Column(name = "category")
+    @Enumerated(EnumType.STRING)
     private MedicineCategory category;
 
     @Override
@@ -38,7 +39,7 @@ public class Medicine {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Medicine medicine = (Medicine) o;
-        return Objects.equals(doctorId, medicine.doctorId) && Objects.equals(name, medicine.name) && Objects.equals(description, medicine.description) && Objects.equals(price, medicine.price) && category == medicine.category;
+        return Objects.equals(doctorId, medicine.doctorId) && Objects.equals(name, medicine.name) && Objects.equals(description, medicine.description) && Objects.equals(price, medicine.price);
     }
 
     @Override

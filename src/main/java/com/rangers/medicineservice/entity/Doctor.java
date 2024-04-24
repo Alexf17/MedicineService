@@ -1,7 +1,7 @@
 package com.rangers.medicineservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rangers.medicineservice.entity.enums.Specialization;
+import com.rangers.medicineservice.entity.enums.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,15 +29,18 @@ public class Doctor {
     private String lastName;
 
     @Column(name = "specialization")
+    @Enumerated(EnumType.STRING)
     private Specialization specialization;
 
     @Column(name = "rating")
     private String rating;
 
     //Relationships
-//    @ManyToOne(mappedBy = "shedule")
+//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
+//            fetch = FetchType.LAZY)
+//    @JoinColumn(name = "schedule_id", referencedColumnName = "schedule_id")
 //    @JsonIgnore
-//    private List<Shedule> sheduleList;
+//    private Shedule shedule;
 
     @Override
     public boolean equals(Object o) {
