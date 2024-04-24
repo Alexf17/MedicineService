@@ -17,6 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Doctor {
+//    fddsfdsfds
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "doctor_id")
