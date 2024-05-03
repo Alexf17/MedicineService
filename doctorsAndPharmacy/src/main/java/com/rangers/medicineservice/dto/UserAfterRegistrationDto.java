@@ -8,6 +8,12 @@ public class UserAfterRegistrationDto {
     String status = "CREATED";
     String firstname;
     String lastname;
-    String chatId;
+    String email;
+    String phoneNumber;
+    String address;
+    String city;
+    String country;
+    String postalCode;
+    String policyNumber;
     String creationDate;
 }
