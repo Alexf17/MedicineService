@@ -1,6 +1,5 @@
 package com.rangers.medicineservice.dto;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
@@ -14,4 +13,5 @@ public class UserRegistrationDto {
     private String country;
     private String postalCode;
     private String policyNumber;
+    private String chatId;
 }

@@ -12,12 +12,14 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/registration")
+    @PostMapping("/registration")
+    //http://localhost:8080/registration
     public UserAfterRegistrationDto createUser (@RequestBody UserRegistrationDto userRegistrationDto){
         return userService.createUser(userRegistrationDto);
     }
 
     @GetMapping("/{id}")
+    //http://localhost:8080/user/...
     public UserInfoDto getUserById(@PathVariable("id") String id){
         return userService.getUserById(id);
     }
@@ -27,7 +29,7 @@ public class UserController {
         return userService.getUserIdByChatId(chatId);
     }
 
-    @GetMapping("/update/{id}")
+    @PutMapping("/update")
     public UserInfoDto updateUser(@RequestBody UserInfoDto userInfoDto){
         return userService.updateUser(userInfoDto);
     }
