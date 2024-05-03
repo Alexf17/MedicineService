@@ -15,5 +15,4 @@ public class UserAfterRegistrationDto {
     String country;
     String postalCode;
     String policyNumber;
-    String creationDate;
 }
