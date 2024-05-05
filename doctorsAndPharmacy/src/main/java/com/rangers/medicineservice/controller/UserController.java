@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetUserHistoryOrdersDocumentation(path = "/history/orders/userId/{id}")
-    public List<OrderDto> getUserHistoryOrders(@PathVariable("id") String id){
+    public List<UserHistoryOrdersDto> getUserHistoryOrders(@PathVariable("id") String id){
         return userService.getUserHistoryOrders(id);
     }
 
