@@ -16,10 +16,6 @@ public class UserHistoryOrdersDto {
     Order.class
     */
     private OrderDto orderDto;
-    //pharmacy
-    //recept
-    //order_data
-    //sum
     /*
     OrderDetail.class
     */
