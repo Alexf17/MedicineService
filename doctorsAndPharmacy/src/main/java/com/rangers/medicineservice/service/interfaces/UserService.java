@@ -8,7 +8,7 @@ public interface UserService {
     UserInfoDto getUserById(String id);
     String getUserIdByChatId(String chatId);
     UserInfoDto updateUser(UserInfoDto userInfoDto);
-    List<OrderDto> getUserHistoryOrders(String id);
+    List<UserHistoryOrdersDto> getUserHistoryOrders(String id);
     UserHistorySchedulesDto getUserHistorySchedules(String id);
     UserHistoryPrescriptionsDto getUserHistoryPrescriptions(String id);
 }

@@ -76,9 +76,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<OrderDto> getUserHistoryOrders(String id) { //UserHistoryOrdersDto
+    public List<UserHistoryOrdersDto> getUserHistoryOrders(String id) {
         List<Order> orders  = orderRepository.getOrdersByUserId(UUID.fromString(id));
-        return orderMapper.toDtoList(orders);
+        return orderMapper.toUserHistoryOrdersDto(orders);
     }
 
     @Override

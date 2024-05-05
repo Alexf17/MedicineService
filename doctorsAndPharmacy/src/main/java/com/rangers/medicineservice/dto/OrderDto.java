@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 @Data
 public class OrderDto {
-    private UUID ordeId;
+    private UUID orderId;
     private Prescription prescription;
     private List<OrderDetail> orderDetails;
     private LocalDate orderDate;
