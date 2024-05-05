@@ -15,9 +15,9 @@ public interface OrderMapper {
     @Mappings({
             @Mapping(target = "orderId", source = "orderId"),
             @Mapping(target = "orderDate", source = "orderDate"),
-            @Mapping(target = "quantity", source = "order.orderDetails.quantity"),
-            @Mapping(target = "name", source = "order.orderDetails.medicine.name"),
-            @Mapping(target = "price", source = "order.orderDetails.medicine.price"),
+            @Mapping(target = "userHistoryOrdersDto.quantity", source = "orders.orderDetails.quantity"),
+            @Mapping(target = "userHistoryOrdersDto.name", source = "orders.orderDetails.medicine.name"),
+            @Mapping(target = "userHistoryOrdersDto.price", source = "orders.orderDetails.medicine.price"),
     })
     List<UserHistoryOrdersDto> toUserHistoryOrdersDto(List<Order> orders);
 }
