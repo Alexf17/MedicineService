@@ -1,16 +1,20 @@
 package com.rangers.medicineservice.service;
 
 import com.rangers.medicineservice.dto.*;
+import com.rangers.medicineservice.entity.Order;
 import com.rangers.medicineservice.entity.User;
 import com.rangers.medicineservice.exception.UserExistException;
 import com.rangers.medicineservice.exception.UserNotFoundException;
 import com.rangers.medicineservice.exception.errormessage.ErrorMessage;
+import com.rangers.medicineservice.mapper.OrderMapper;
 import com.rangers.medicineservice.mapper.UserMapper;
+import com.rangers.medicineservice.repository.OrderRepository;
 import com.rangers.medicineservice.repository.UserRepository;
 import com.rangers.medicineservice.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,7 +23,9 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
     private final UserMapper userMapper;
+    private final OrderMapper orderMapper;
 
     @Override
     public UserAfterRegistrationDto createUser(UserRegistrationDto userRegistrationDto) {
@@ -70,8 +76,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserHistoryOrdersDto getUserHistoryOrders(String id) {
-        return null;
+    public List<OrderDto> getUserHistoryOrders(String id) { //UserHistoryOrdersDto
+        List<Order> orders  = orderRepository.getOrdersByUserId(UUID.fromString(id));
+        return orderMapper.toDtoList(orders);
     }
 
     @Override
