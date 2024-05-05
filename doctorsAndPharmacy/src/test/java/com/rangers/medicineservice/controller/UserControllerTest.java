@@ -8,10 +8,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.apache.logging.log4j.ThreadContext.isEmpty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.AdditionalMatchers.not;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -100,9 +103,11 @@ class UserControllerTest {
     @Test
     void getUserHistoryOrdersTest() throws Exception {
         mockMvc
-                .perform(MockMvcRequestBuilders.post("/user/history/orders/userId/"+userTestId))
-                .andExpect(status().isOk());
-                //needs improvement
+                .perform(MockMvcRequestBuilders.get("/user/history/orders/userId/"+userTestId))
+                .andExpect(status().isOk())
+                .andExpect((ResultMatcher) jsonPath("$.orderId", not(isEmpty())))
+                .andExpect((ResultMatcher) jsonPath("$.quantity", not(isEmpty())))
+                .andExpect((ResultMatcher) jsonPath("$.name", not(isEmpty())));
     }
 
     @Test
