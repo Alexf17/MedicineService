@@ -26,6 +26,20 @@ public class Order {
     @Column(name = "order_id")
     private UUID orderId;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    @Column(name = "order_cost")
+    private BigDecimal orderCost;
+
+    @Column(name = "delivery_address")
+    private String deliveryAddress;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id")
+    private Pharmacy pharmacy;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
@@ -41,20 +55,6 @@ public class Order {
     @Column(name = "order_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate orderDate;
-
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
-
-    @Column(name = "order_cost")
-    private BigDecimal orderCost;
-
-    @Column(name = "delivery_address")
-    private String deliveryAddress;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id")
-    private Pharmacy pharmacy;
 
     @Override
     public boolean equals(Object o) {

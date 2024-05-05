@@ -3,9 +3,7 @@ package com.rangers.medicineservice.mapper;
 import com.rangers.medicineservice.dto.OrderDto;
 import com.rangers.medicineservice.dto.UserHistoryOrdersDto;
 import com.rangers.medicineservice.entity.Order;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -14,20 +12,12 @@ import java.util.List;
 public interface OrderMapper {
     OrderDto toDto(Order order);
 
-//    @Mappings({
-//            @Mapping(target = "firstName", source = "employeeRegistrationDto.firstName"),
-//            @Mapping(target = "lastName", source = "employeeRegistrationDto.lastName"),
-//            @Mapping(target = "driver", source = "employeeRegistrationDto.driver"),
-//            @Mapping(target = "working", expression = "java(true)"),
-//            @Mapping(target = "createdAt", expression = "java(new Timestamp(System.currentTimeMillis()))"),
-//
-//            @Mapping(target = "employeeInfo.address", source = "employeeRegistrationDto.address"),
-//            @Mapping(target = "employeeInfo.phone", source = "employeeRegistrationDto.phone"),
-//            @Mapping(target = "employeeInfo.drivingLicenseCategory", source = "employeeRegistrationDto.drivingLicenseCategory"),
-//            @Mapping(target = "employeeInfo.login", source = "employeeRegistrationDto.login"),
-//            @Mapping(target = "employeeInfo.password", expression = "java(generatePassword())"),
-//            @Mapping(target = "employeeInfo.createdAt", expression = "java(new Timestamp(System.currentTimeMillis()))"),
-//            @Mapping(target = "employeeInfo.roles", source = "roles")
-//    })
+    @Mappings({
+            @Mapping(target = "orderId", source = "orderId"),
+            @Mapping(target = "orderDate", source = "orderDate"),
+            @Mapping(target = "quantity", source = "order.orderDetails.quantity"),
+            @Mapping(target = "name", source = "order.orderDetails.medicine.name"),
+            @Mapping(target = "price", source = "order.orderDetails.medicine.price"),
+    })
     List<UserHistoryOrdersDto> toUserHistoryOrdersDto(List<Order> orders);
 }
