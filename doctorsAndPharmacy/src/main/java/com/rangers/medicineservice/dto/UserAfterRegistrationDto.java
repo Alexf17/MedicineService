@@ -2,6 +2,8 @@ package com.rangers.medicineservice.dto;
 
 import lombok.Value;
 
+import java.util.UUID;
+
 @Value
 public class UserAfterRegistrationDto {
     String operation = "USER CREATION";
