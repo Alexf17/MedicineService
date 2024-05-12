@@ -16,7 +16,6 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, imports = {LocalDate.class, OrderStatus.class, Order.class},
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-@Component
 public interface OrderMapper {
 
 
@@ -51,21 +50,12 @@ public interface OrderMapper {
     Order toEntity(CreatedOrderDto createdOrderDto);
 
     OrderDto toDto(Order order);
+
     List<UserHistoryOrdersDto> toUserHistoryOrdersDto(List<Order> orders);
-
-    @Mappings({
-            @Mapping(target = "name", source = "orderDetail.medicine.name"),
-            @Mapping(target = "price", source = "orderDetail.medicine.price")
-    })
-    UserHistoryOrderDetailsDto mapToUserHistoryOrderDetailsDto(OrderDetail orderDetail);
-
     @AfterMapping
     default void getOrderDetails(@MappingTarget UserHistoryOrdersDto userHistoryOrdersDto,
                                  Order order) {
-
-        List<UserHistoryOrderDetailsDto> userHistoryOrderDetailsDtoList = order.getOrderDetails().stream()
-                .map(this::mapToUserHistoryOrderDetailsDto)
-                .toList();
-        userHistoryOrdersDto.setUserHistoryOrderDetailsDtoList(userHistoryOrderDetailsDtoList);
+        userHistoryOrdersDto.setOrderId(order.getOrderId());
+        userHistoryOrdersDto.setOrderDate(order.getOrderDate());
     }
 }

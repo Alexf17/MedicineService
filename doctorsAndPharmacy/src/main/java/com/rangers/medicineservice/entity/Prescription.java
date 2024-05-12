@@ -59,7 +59,7 @@ public class Prescription {
 
     @Override
     public String toString() {
-        return "PrescriptionDto{" +
+        return "Prescription{" +
                 "prescriptionId=" + prescriptionId +
                 ", expDate=" + expDate +
                 ", createdAt=" + createdAt +
