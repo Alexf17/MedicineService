@@ -12,10 +12,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Provides utility methods to generate  buttons for various actions in the chat interface.
@@ -130,13 +129,19 @@ public class GetButtons {
      * @return A list of button rows.
      */
     public static List<List<InlineKeyboardButton>> getListsDatesByDoctor(String doctorId) {
-        List<ScheduleDateTimeDto> date = scheduleService.getScheduleDate(UUID.fromString(doctorId));
+        List<ScheduleDateTimeDto> dates = scheduleService.getScheduleDate(UUID.fromString(doctorId));
+
+        //  Set for uniq dates
+        Set<LocalDate> uniqueDates = dates.stream()
+                .map(dto -> dto.getDateAndTime().toLocalDate())
+                .collect(Collectors.toSet());
+
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
 
-        for (ScheduleDateTimeDto dto : date) {
+        for (LocalDate date : uniqueDates) {
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
-            InlineKeyboardButton button = new InlineKeyboardButton("Date: " + dto.getDateAndTime().toLocalDate().toString());
-            button.setCallbackData("Date:" + dto.getDateAndTime().toLocalDate());
+            InlineKeyboardButton button = new InlineKeyboardButton("Date: " + date.toString());
+            button.setCallbackData("Date:" + date.toString());
             rowInline.add(button);
             rowsInline.add(rowInline);
         }
