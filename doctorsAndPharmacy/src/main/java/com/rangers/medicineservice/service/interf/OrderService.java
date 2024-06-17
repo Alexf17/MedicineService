@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface OrderService {
-    CreatedOrderDto createOrder(Set<CartItem> cartItems);
+    CreatedOrderDto createOrder(List<CartItem> cartItems);
 
     OrderFromPrescriptionDto addOrder(PrescriptionDto prescriptionDto);
 

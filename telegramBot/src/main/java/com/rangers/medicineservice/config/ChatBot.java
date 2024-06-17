@@ -2,10 +2,7 @@ package com.rangers.medicineservice.config;
 
 import com.rangers.medicineservice.controller.ChatController;
 import com.rangers.medicineservice.dto.*;
-import com.rangers.medicineservice.entity.CartItem;
-import com.rangers.medicineservice.entity.Medicine;
-import com.rangers.medicineservice.entity.Prescription;
-import com.rangers.medicineservice.entity.PromptRequest;
+import com.rangers.medicineservice.entity.*;
 import com.rangers.medicineservice.mapper.ScheduleMapper;
 import com.rangers.medicineservice.service.impl.*;
 import com.rangers.medicineservice.utils.GetBotInfo;
@@ -971,14 +968,16 @@ public class ChatBot extends TelegramLongPollingBot {
     private void handleCheckoutCallBack(String chatId, String callbackData) {
         String userId = userService.getUserIdByChatId(chatId);
         List<CartItem> cart = cartItemService.getCartItemsByUserId(userId);
-        List<CartItem> cartWithoutDoubles = getCartWithoutDoubles(cart);
+        CreatedOrderDto createdOrderDto = orderService.createOrder(cart);
+
         StringBuilder cartMessage = new StringBuilder();
         final BigDecimal[] sum = {BigDecimal.valueOf(0)};
-        cartWithoutDoubles
-                .forEach(cartItem -> {
-                    BigDecimal price = cartItem.getMedicine().getPrice();
-                    BigDecimal quantity = BigDecimal.valueOf(cartItem.getQuantity());
-                    cartMessage.append(cartItem.getMedicine().getName()).append(", ");
+        List<OrderDetail> withoutDouble = getOrderDetailsWithoutDoubles(createdOrderDto.getOrderDetails());
+        withoutDouble
+                .forEach(orderDetail -> {
+                    BigDecimal price = orderDetail.getMedicine().getPrice();
+                    BigDecimal quantity = BigDecimal.valueOf(orderDetail.getQuantity());
+                    cartMessage.append(orderDetail.getMedicine().getName()).append(", ");
                     cartMessage.append("price: $").append(price).append(", ");
                     cartMessage.append("quantity: ").append(quantity).append("\n");
                     BigDecimal itemTotal = price.multiply(quantity);
@@ -1021,6 +1020,31 @@ public class ChatBot extends TelegramLongPollingBot {
                     cartItem1.setMedicine(entry.getKey());
                     cartItem1.setQuantity(entry.getValue());
                     return cartItem1;
+                })
+                .toList();
+    }
+
+    /**
+     * Retrieves the order details without duplicates.
+     *
+     * @param list The list of order details.
+     * @return The list of order details without duplicates.
+     * @author Volha
+     */
+    private List<OrderDetail> getOrderDetailsWithoutDoubles(List<OrderDetail> list) {
+        Map<Medicine, Integer> mergedMap = list.stream()
+                .filter(item -> item.getMedicine() != null) // Фильтр для исключения null значений Medicine
+                .collect(Collectors.groupingBy(
+                        OrderDetail::getMedicine,
+                        Collectors.summingInt(OrderDetail::getQuantity)
+                ));
+
+        return mergedMap.entrySet().stream()
+                .map(entry -> {
+                    OrderDetail orderDetail1 = new OrderDetail();
+                    orderDetail1.setMedicine(entry.getKey());
+                    orderDetail1.setQuantity(entry.getValue());
+                    return orderDetail1;
                 })
                 .toList();
     }

@@ -59,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional
-    public CreatedOrderDto createOrder(Set<CartItem> cartItems) {
+    public CreatedOrderDto createOrder(List<CartItem> cartItems) {
         if (cartItems.isEmpty()) {
             throw new IllegalArgumentException("Cart items set cannot be empty.");
         }
@@ -116,6 +116,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         orderRepository.saveAndFlush(order);  // Сохраняем заказ
+
+        cartItemRepository.deleteAll(cartItems);
 
         return orderMapper.toDto(orderBeforeCreation);
     }
