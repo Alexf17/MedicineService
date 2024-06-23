@@ -12,6 +12,7 @@ import com.rangers.medicineservice.utils.SupportMailSender;
 import com.rangers.medicineservice.utils.formater.ScheduleFormat;
 import com.rangers.medicineservice.utils.headers.MenuHeader;
 import com.rangers.medicineservice.utils.userVariable.UserVariable;
+import com.rangers.medicineservice.utils.validator.EmailValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
@@ -759,9 +760,14 @@ public class ChatBot extends TelegramLongPollingBot {
                 userVariableMap.get(chatId).setRegistrationStep(userVariableMap.get(chatId).getRegistrationStep() + 1);
                 break;
             case 2:
-                userVariableMap.get(chatId).getUserRegistrationDto().setEmail(messageText);
-                sendMsg(chatId, "Great! Now enter your phone number:");
-                userVariableMap.get(chatId).setRegistrationStep(userVariableMap.get(chatId).getRegistrationStep() + 1);
+                if (!EmailValidator.isValid(messageText)){
+                    sendMsg(chatId,"Invalid email format, please enter your email again!");
+                    userVariableMap.get(chatId).setRegistrationStep(userVariableMap.get(chatId).getRegistrationStep());
+                }else {
+                    userVariableMap.get(chatId).getUserRegistrationDto().setEmail(messageText);
+                    sendMsg(chatId, "Great! Now enter your phone number:");
+                    userVariableMap.get(chatId).setRegistrationStep(userVariableMap.get(chatId).getRegistrationStep() + 1);
+                }
                 break;
             case 3:
                 userVariableMap.get(chatId).getUserRegistrationDto().setPhoneNumber(messageText);
