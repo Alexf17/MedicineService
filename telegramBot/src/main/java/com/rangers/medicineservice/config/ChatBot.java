@@ -597,9 +597,7 @@ public class ChatBot extends TelegramLongPollingBot {
 
                 try {
                     execute(removeKeyboard);
-                } catch (TelegramApiException ignored) {
-
-                }
+                } catch (TelegramApiException ignored) {}
                 userVariableMap.get(chatId).setIsChatInProgress(false);
 
                 sendMenu(chatId, GetButtons.getListsStartMenu(), MenuHeader.CHOOSE_ACTION);
@@ -607,8 +605,7 @@ public class ChatBot extends TelegramLongPollingBot {
                 PromptRequest prompt = new PromptRequest();
                 prompt.setPrompt(text);
 
-//                sendMsg(chatId, "Generating answer...");
-
+                sendMsg(chatId, "Answering...");
                 sendMsg(chatId, chatController.getAiResponse(prompt));
             }
         }
