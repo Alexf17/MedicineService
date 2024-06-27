@@ -606,7 +606,9 @@ public class ChatBot extends TelegramLongPollingBot {
                 prompt.setPrompt(text);
 
                 sendMsg(chatId, "Answering...");
-                sendMsg(chatId, chatController.getAiResponse(prompt));
+                String answer = chatController.getAiResponse(prompt);
+                deleteMessage(chatId, userVariableMap.get(chatId).getLastMessageId());
+                sendMsg(chatId, answer);
             }
         }
     }
