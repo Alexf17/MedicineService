@@ -710,7 +710,8 @@ public class ChatBot extends TelegramLongPollingBot {
             message.setChatId(chatId);
             message.setText(text);
             try {
-                execute(message);
+                Message sendMessage = execute(message);
+                userVariableMap.get(chatId).setLastMessageId(sendMessage.getMessageId());
             } catch (TelegramApiException e) {
                 log.info(e.getMessage());
             }
