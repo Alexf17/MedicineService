@@ -606,7 +606,9 @@ public class ChatBot extends TelegramLongPollingBot {
                 prompt.setPrompt(text);
 
                 sendMsg(chatId, "Answering...");
-                sendMsg(chatId, chatController.getAiResponse(prompt));
+                String answer = chatController.getAiResponse(prompt);
+                deleteMessage(chatId, userVariableMap.get(chatId).getLastMessageId());
+                sendMsg(chatId, answer);
             }
         }
     }
@@ -708,7 +710,8 @@ public class ChatBot extends TelegramLongPollingBot {
             message.setChatId(chatId);
             message.setText(text);
             try {
-                execute(message);
+                Message sendMessage = execute(message);
+                userVariableMap.get(chatId).setLastMessageId(sendMessage.getMessageId());
             } catch (TelegramApiException e) {
                 log.info(e.getMessage());
             }

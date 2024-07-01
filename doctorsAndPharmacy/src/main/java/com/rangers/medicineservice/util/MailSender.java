@@ -1,5 +1,6 @@
 package com.rangers.medicineservice.util;
 
+import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -52,6 +53,7 @@ public class MailSender {
      * @param subject the subject of the email
      * @param message the text of the email
      */
+    @Synchronized
     public void send(String emailTo, String subject, String message){
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
